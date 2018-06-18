@@ -1,0 +1,40 @@
+<div class="container">
+  <app-cockpit
+  (serverCreated)="onServerAdded($event)"
+  (bpCreated)="onBlueprintAdded($event)"
+  ></app-cockpit>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      <app-server-element
+      *ngFor="let serverElement of serverElements"
+      [srvElement]="serverElement">
+      <p>
+        <strong *ngIf="serverElement.type === 'server'" style="color: red">{{ serverElement.content }}</strong>
+        <em *ngIf="serverElement.type === 'blueprint'">{{ serverElement.content }}</em>
+      </p>
+    </app-server-element>
+    </div>
+  </div>
+</div>
+
+
+<!--  KIP- goal on line 2 is to have cockipit send info up to app component.
+  How we accomplish is by listening to event (serverCreated) then use the method we declared in
+  app.component.ts, 'onServerAdded', also we use $event to capture the input data
+  comment
+>if you go back to app.component.ts, you add this:
+
+ onServerAdded(serverData: {serverName: string, serverContent: string}
+
+ to both the 'onServerAdded' method and 'onBlueprintAdded' methods!
+
+ >>on line 2 where we cad the selector of the <app-cockpit, we went ahead and duplicated the
+ code for listening to (serverCreated)  and made it for (bluePrintCreated)
+
+ngContent - on line 9 - when we have our <app-server-element> selector, in the attr tag space, we add
+  more complex html we wan tot add, we would have to change everything to serverElement, but this will not work!
+  by default angular will omit this,
+  What we must do then is use a special directive in the server-element comp, we add ng-content.
+  *look in server-element
+-->
